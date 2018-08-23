@@ -34,7 +34,7 @@ namespace Navneliste_Read_Write_Opgave
                 //Der oprettes "lists"
                 List<string> NyeBrugere = new List<string>();
                 List<Alias> AliasList = new List<Alias>();
-                List<string> navneliste = new List<string>();// opretter en string list der hedder navneliste.
+                List<string> navneliste = new List<string>();
 
                 //Her oprettes et char array
                 char[] schar = { ' ' };
@@ -89,7 +89,6 @@ namespace Navneliste_Read_Write_Opgave
                     Environment.Exit(0);
                 }
 
-
                 // metode til at indlæse mine "navne" til en txt fil
                 void IndlæsTilTxt()
                 {
@@ -139,33 +138,40 @@ namespace Navneliste_Read_Write_Opgave
                                 ListeMetode(line);
                             }
                         }
+                        //Hvis der kommer en Exception skal den "catches" og udskrive fejlen.
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
                         }
                     }
+                    //Ellers udfør dette
                     else
                     {
+                        //String  /Input
                         string IndtastAdr;
                         Console.WriteLine("Indtast den fulde sti på din fil");
                         IndtastAdr = Console.ReadLine();
                         try
                         {
+                            //Opretter en ny StreamReader "IndtastAdr"
                             TextReader tr = new StreamReader(IndtastAdr);
+                            //Den bliver ved med og læse en linjie og gemmer den i "line" vis linjien ikke er tom, den hopper ud af loopen vis det er tomt
                             while ((line = tr.ReadLine()) != null)
                             {
                                 ListeMetode(line);
                             }
                         }
+                        //Hvis der kommer en Exception skal den "catches" og udskrive fejlen.
                         catch (Exception e)
                         {
                             Console.WriteLine(e.Message);
-                            //throw;
                         }
                     }
-                    navneliste.Sort();//sorter navneliste, når den udskrives vil den vises i alfabetisk rækkefølge
+                    //sorter navneliste, når den udskrives vil den vises i alfabetisk rækkefølge
+                    navneliste.Sort();
 
-                    foreach (string fnavn in navneliste)// for hvert navn i min List gør: udskriv!
+                    // for hvert navn i min List gør: udskriv!
+                    foreach (string fnavn in navneliste)
                     {
                         Console.WriteLine(fnavn);
                     }
@@ -177,56 +183,57 @@ namespace Navneliste_Read_Write_Opgave
                     //navn = StortOgSmaat(Console.ReadLine().Trim()); //variablen navn = indtastning + metoden StortOgSmåt plus trim(fjern mellemrum)
                     if (nnavn != "")
                     {
-
-
-
-                        string[] delNavn = nnavn.Split(schar, StringSplitOptions.RemoveEmptyEntries); // opretter en ny string array "delnavn" og gemmer det indtastede navn, og splitter det ved alle mellemrum (schar)
+                        //Opretter en ny string array "delnavn" og gemmer det indtastede navn, og splitter det ved alle mellemrum (schar)
+                        string[] delNavn = nnavn.Split(schar, StringSplitOptions.RemoveEmptyEntries);
                         string totalNavn = "";
-                        foreach (string xnavn in delNavn)// for hvert navn gemt i vores array, kør metoden StortOgSmåt og gem navnet i totalNavn
+                        // for hvert navn gemt i vores array, kør metoden StortOgSmåt og gem navnet i totalNavn
+                        foreach (string xnavn in delNavn)
                         {
                             totalNavn += StortOgSmaat(xnavn);
                         }
-                        totalNavn = totalNavn.Trim();//fjerner alle mellemrum fra variablen totalNavn
-                        string[] fnavn = totalNavn.Split(); // opretter en string array og gemmer indtastningen af navne, .split splitter alle navne op i seperate arrays
-                        string Efternavn = fnavn[fnavn.Length - 1]; // opretter en variable Efternavn, og tjekker længden af fnavn arrayet og tager det sidste navn i arrayet og gemmer den under variablen Efternavn
-                        string Fornavn = ""; // opretter en tom string variable kaldet Fornavn.
-                        for (int i = 0; i < fnavn.Length - 1; i++)//
+                        //fjerner alle mellemrum fra variablen totalNavn
+                        totalNavn = totalNavn.Trim();
+                        // opretter en string array og gemmer indtastningen af navne, .split splitter alle navne op i seperate arrays
+                        string[] fnavn = totalNavn.Split();
+                        // opretter en variable Efternavn, og tjekker længden af fnavn arrayet og tager det sidste navn i arrayet og gemmer den under variablen Efternavn
+                        string Efternavn = fnavn[fnavn.Length - 1];
+                        // opretter en tom string variable kaldet Fornavn.
+                        string Fornavn = "";
+                        // Incrementor
+                        for (int i = 0; i < fnavn.Length - 1; i++)
                             Fornavn += fnavn[i] + " ";
 
+                        //Vores object i vores struct "Alias"
                         Alias A1;
-                        A1.AliNavn = Fornavn.Substring(0, 2) + Efternavn.Substring(0, 2);// tag de første 2 bokstaver af første fornavn og efternavnet
+                        // tag de første 2 bokstaver af første fornavn og efternavnet
+                        A1.AliNavn = Fornavn.Substring(0, 2) + Efternavn.Substring(0, 2);
                         A1.AliNr = 0001;
                         string alinavn = A1.AliNavn;
 
-
+                        //For hvert alias i "AliasList" incrementer med +1
                         foreach (Alias DelAlias in AliasList)
                         {
-
                             if (DelAlias.AliNavn == alinavn)
                             {
                                 A1.AliNr += 1;
                             }
-
                         }
+                        //Tilføj til listen
                         AliasList.Add(A1);
                         navneliste.Add(Efternavn + ", " + Fornavn + ", " + A1.AliNavn + A1.AliNr);
-
                     }
-
                 }
+
                 // her er vores funktion (metode fordi den ligger i en kasse - main)
-                string StortOgSmaat(string inavn) //tager de første bokstaver og laver dem store (capslock) og alle andre små.
+                //tager de første bokstaver og laver dem store (capslock) og alle andre små.
+                string StortOgSmaat(string inavn)
                 {
                     if (inavn.Length != 0)
                         return inavn.Substring(0, 1).ToUpper() + inavn.Substring(1).ToLower() + " ";
                     else
                         return "";
                 }
-
-
-
             }
-
         }
     }
 }
