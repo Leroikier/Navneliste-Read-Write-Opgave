@@ -23,22 +23,21 @@ namespace Navneliste_Read_Write_Opgave
             //Her oprettes en struct
             {
                 //Strings
-                public string AliNavn;
-                public int AliNr;
+                public string AliNavn;//Aliaser
+                public int AliNr;//Løbe nummer
             }
 
             static void Main(string[] args)
             {
-                //String opret
+                //String
                 string line;
-                //Der oprettes "lists"
-                List<string> NyeBrugere = new List<string>();
+                //Der oprettes "Lists"
                 List<Alias> AliasList = new List<Alias>();
                 List<string> navneliste = new List<string>();
 
-                //Her oprettes et char array
+                //Her oprettes et char array som bruges af stortogsmåt metoden til og fjerne mellemrum
                 char[] schar = { ' ' };
-                //String opret
+                //String
                 string indtastning;
 
                 //Menu //Input fra brugerens side
@@ -63,7 +62,7 @@ namespace Navneliste_Read_Write_Opgave
                     // kør min "do" imens variablen navn ikke er tom
                     while (navn != "");
                     Console.WriteLine("");
-                    //Kald Metoden "IndlæsTilTxt"
+                    //Kalder Metoden "IndlæsTilTxt"
                     IndlæsTilTxt();
 
                     //Udskrivning
@@ -158,6 +157,7 @@ namespace Navneliste_Read_Write_Opgave
                             //Den bliver ved med og læse en linjie og gemmer den i "line" vis linjien ikke er tom, den hopper ud af loopen vis det er tomt
                             while ((line = tr.ReadLine()) != null)
                             {
+                                //for hver læst, skal gemmes i navnelisten ved og køre liste metoden
                                 ListeMetode(line);
                             }
                         }
@@ -218,7 +218,7 @@ namespace Navneliste_Read_Write_Opgave
                                 A1.AliNr += 1;
                             }
                         }
-                        //Tilføj til listen
+                        //Tilføj aliaset til listen
                         AliasList.Add(A1);
                         navneliste.Add(Efternavn + ", " + Fornavn + ", " + A1.AliNavn + A1.AliNr);
                     }
